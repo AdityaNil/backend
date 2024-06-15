@@ -44,21 +44,38 @@ app.get('/api/health', (req, res) => {
 });
 
 // Define a route to handle the contact form submission
-app.post('/api/saveContact', (req, res) => {
-    console.log('Request Body:', req.body); // Log the request body
+// app.post('/api/saveContact', (req, res) => {
+//     console.log('Request Body:', req.body); 
 
-    const contactData = new Contact(req.body);
+//     console.log(req.body.email);
 
-    contactData.save()
-        .then(() => {
-            console.log('Contact data saved');
-            res.status(200).send('Contact data saved');
-        })
-        .catch(err => {
-            console.error('Error saving contact data:', err);
-            res.status(500).send('Error saving contact data: ' + err);
-        });
-});
+//     const contactData = Contact.create(req.body);
+
+//     contactData.save()
+//         .then(() => {
+//             console.log('Contact data saved');
+//             res.status(200).send('Contact data saved');
+//         })
+//         .catch(err => {
+//             console.error('Error saving contact data:', err);
+//             res.status(500).send('Error saving contact data: ' + err);
+//         });
+// });
+
+app.post('/api/saveContact', async (req, res) => {
+    try {
+      const { email, name } = req.body;
+      console.log(req.body);
+  
+      const result = await Contact.create(req.body);
+      
+      return res.status(201).json(result); 
+    } catch (error) {
+      console.log('Something went wrong in crud repo', error);
+      return res.status(500).json({ error: 'An error occurred while saving the contact' });
+    }
+  });
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
