@@ -6,7 +6,7 @@ const cors = require('cors');
 
 // Create an Express app
 const app = express();
-const uri = process.env.MONGODB_URI;
+const uri = "mongodb+srv://adityaanand2809:kPNVNGW2ZfXhVJvR@cluster0.ufcntjg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 if (!uri) {
     console.error('Error: MONGODB_URI is not defined in .env file');
@@ -64,7 +64,7 @@ app.get('/api/health', (req, res) => {
 
 app.post('/api/saveContact', async (req, res) => {
     try {
-      const { email, name } = req.body;
+    //   const { email, name } = req.body;
       console.log(req.body);
   
       const result = await Contact.create(req.body);
