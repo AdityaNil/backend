@@ -6,7 +6,7 @@ const cors = require('cors');
 
 // Create an Express app
 const app = express();
-const uri = "mongodb+srv://adityaanand2809:kPNVNGW2ZfXhVJvR@cluster0.ufcntjg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.MONGODB_URI;
 
 if (!uri) {
     console.error('Error: MONGODB_URI is not defined in .env file');
@@ -20,7 +20,9 @@ app.use(cors());
 // MongoDB connection
 mongoose.connect(uri, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    connectTimeoutMS: 30000, // 30 seconds timeout
+    socketTimeoutMS: 45000 
 }).then(() => {
     console.log('Connected to MongoDB');
 }).catch(err => {
